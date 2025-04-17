@@ -1,35 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import useProducts from './useproduct';
+import Header from './Header';
+import ProductDetail from './productDetail';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [cartItems, setCartItems] = useState([]);
+  const { products, loading, error } = useProducts();
+
+  const addToCart = (product) => {
+    setCartItems((prevState) => [...prevState, product]);
+  };
+  if (loading) return <p>Loading products...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header cartItemsCount={cartItems.length} />
+      <ProductDetail addToCart={addToCart} products={products} />
     </>
-  )
+  );
 }
-
-export default App
