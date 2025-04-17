@@ -1,4 +1,4 @@
-// import for Link
+import { Link } from 'react-router-dom';
 
 function Links({ cartItemsCount }) {
   return (
